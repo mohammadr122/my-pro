@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="آموزشگاه زبان آفاق - دوره‌های آموزشی زبان‌های خارجی">
+    <title>دوره‌های آموزشی - آفاق</title>
+    <link href="https://cdn.jsdelivr.net/npm/vazir-font@30.0.0/dist/font-face.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --main-color: #F8FAFC;
+            --sec-color: #6B7280;
+            --accent-color: #3B82F6;
+            --text-dark: #1F2937;
+            --text-light: #9CA3AF;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --neon-glow: 0 0 8px rgba(59, 130, 246, 0.4);
+            --blur-value: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--main-color);
+            direction: rtl;
+            font-family: 'Vazir', sans-serif;
+            font-weight: 400;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            padding: 12px 40px;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .navbar .nav-links li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar .nav-links li a i {
+            font-size: 16px;
+        }
+
+        .navbar .nav-links li a:hover {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar .search-btn {
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .search-btn:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .navbar .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .navbar .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .navbar .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .navbar .nav-links.mobile {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow);
+            flex-direction: column;
+            padding: 80px 20px;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar .nav-links.mobile.active {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .navbar .nav-links.mobile li {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .navbar .nav-links.mobile.active li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar .nav-links.mobile.active li:nth-child(1) { transition-delay: 0.1s; }
+        .navbar .nav-links.mobile.active li:nth-child(2) { transition-delay: 0.15s; }
+
+        /* Search Form */
+        .navbar .search-form {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 480px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            z-index: 999;
+            text-align: center;
+        }
+
+        .navbar .search-form.active {
+            opacity: 1;
+            pointer-events: auto;
+            padding: 10px;
+        }
+
+        .navbar .search-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .navbar .search-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: transparent;
+            font-family: 'Vazir', sans-serif;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .search-form input:focus {
+            border-color: var(--accent-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .navbar .search-form .search-result {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-top: 8px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .navbar .search-form .search-result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar .search-form .search-btn, .navbar .cancel-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .search-form .search-btn {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        .navbar .search-form .search-btn:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+
+        .navbar .cancel-btn {
+            background: transparent;
+            color: var(--text-dark);
+            border: 1px solid var(--glass-border);
+        }
+
+        .navbar .cancel-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .navbar .search-form .close-btn {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .search-form .close-btn:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .navbar .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Container */
+        .container {
+            padding: clamp(20px, 5vw, 40px) clamp(15px, 3vw, 30px);
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content {
+            flex: 3;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card i {
+            font-size: 36px;
+            color: var(--accent-color);
+            margin-bottom: 14px;
+        }
+
+        .course-card h3 {
+            font-size: clamp(18px, 3vw, 22px);
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .course-card p {
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .course-card .stats {
+            display: flex;
+            gap: 10px;
+            font-size: 13px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .course-card .stats span {
+            background: var(--glass-bg);
+            padding: 4px 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            color: var(--text-dark);
+        }
+
+        .course-card .stats i {
+            margin-left: 5px;
+            font-size: 14px;
+            color: var(--accent-color);
+        }
+
+        .sidebar {
+            flex: 1;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .sidebar-item {
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-item i {
+            font-size: 16px;
+            color: var(--accent-color);
+        }
+
+        .sidebar-item:hover {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateX(-4px);
+        }
+
+        .sidebar-item:hover i {
+            color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 8px 15px;
+            }
+
+            .navbar .nav-links {
+                display: none;
+            }
+
+            .navbar .hamburger {
+                display: flex;
+            }
+
+            .navbar .nav-links.mobile {
+                display: flex;
+            }
+
+            .container {
+                flex-direction: column;
+                padding: clamp(15px, 4vw, 30px) clamp(10px, 2vw, 20px);
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                margin-left: 0;
+                width: 100%;
+                position: relative;
+                top: 0;
+            }
+
+            .navbar .search-form {
+                width: 95%;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 6px 10px;
+            }
+
+            .navbar .search-btn {
+                font-size: 18px;
+                padding: 6px;
+            }
+
+            .navbar .search-form input {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .navbar .search-form .search-btn, .navbar .cancel-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .navbar .search-form .close-btn {
+                font-size: 16px;
+            }
+
+            .course-card h3 {
+                font-size: 18px;
+            }
+
+            .course-card p {
+                font-size: 13px;
+            }
+
+            .sidebar-item {
+                font-size: 14px;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="ناوبری اصلی">
+        <div class="nav-actions">
+            <button class="search-btn" onclick="toggleSearch()" aria-label="باز کردن جستجو">
+                <i class="fas fa-magnifying-glass"></i>
+            </button>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()" aria-label="باز کردن منوی موبایل">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" aria-label="لینک‌های ناوبری">
+            <li><a href="#" onclick="filterCourses('beginner')" aria-label="دوره‌های مبتدی"><i class="fa fa-book"></i> دوره‌های مبتدی</a></li>
+            <li><a href="#" onclick="filterCourses('intermediate')" aria-label="دوره‌های متوسط"><i class="fa fa-book"></i> دوره‌های متوسط</a></li>
+        </ul>
+        <ul class="nav-links mobile" aria-label="منوی موبایل">
+            <li><a href="#" onclick="filterCourses('beginner'); toggleMenu();" aria-label="دوره‌های مبتدی"><i class="fa fa-book"></i> دوره‌های مبتدی</a></li>
+            <li><a href="#" onclick="filterCourses('intermediate'); toggleMenu();" aria-label="دوره‌های متوسط"><i class="fa fa-book"></i> دوره‌های متوسط</a></li>
+        </ul>
+        <div class="search-form" aria-label="فرم جستجو">
+            <div class="search-container">
+                <div class="input-group">
+                    <input type="text" placeholder="جستجوی دوره..." aria-label="جستجو" id="search-input">
+                    <span class="search-result" id="search-result"></span>
+                </div>
+                <div class="button-group">
+                    <button class="search-btn" onclick="performSearch()" aria-label="جستجو">
+                        <i class="fas fa-magnifying-glass"></i> جستجو
+                    </button>
+                </div>
+                <button class="close-btn" onclick="toggleSearch()" aria-label="بستن جستجو">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section>
+        <div class="container">
+            <div class="main-content">
+                <!-- Beginner Courses -->
+                <div class="course-card beginner english">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان انگلیسی (سطح پایه)</h3>
+                    <p>یادگیری زبان انگلیسی از پایه با متدهای مدرن...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۶</span>
+                        <span><i class="fas fa-users"></i> ۱,۲۰۰</span>
+                        <span><i class="fas fa-gift"></i> رایگان</span>
+                    </div>
+                </div>
+                <div class="course-card beginner french">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان فرانسه (سطح پایه)</h3>
+                    <p>شروع یادگیری زبان فرانسه با روش‌های تعاملی...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۳</span>
+                        <span><i class="fas fa-users"></i> ۹۰۰</span>
+                        <span><i class="fas fa-gift"></i> رایگان</span>
+                    </div>
+                </div>
+                <div class="course-card beginner italian">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان ایتالیایی (سطح پایه)</h3>
+                    <p>یادگیری زبان ایتالیایی با تمرکز بر مکالمه...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۴</span>
+                        <span><i class="fas fa-users"></i> ۸۵۰</span>
+                        <span><i class="fas fa-gift"></i> رایگان</span>
+                    </div>
+                </div>
+                <div class="course-card beginner arabic">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان عربی (سطح پایه)</h3>
+                    <p>آشنایی با زبان عربی و قواعد اولیه آن...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۲</span>
+                        <span><i class="fas fa-users"></i> ۷۰۰</span>
+                        <span><i class="fas fa-gift"></i> رایگان</span>
+                    </div>
+                </div>
+                <!-- Intermediate Courses -->
+                <div class="course-card intermediate german">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان آلمانی (سطح متوسط)</h3>
+                    <p>تقویت مهارت‌های زبان آلمانی در سطح متوسط...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۷</span>
+                        <span><i class="fas fa-users"></i> ۱,۳۰۰</span>
+                        <span><i class="fas fa-dollar-sign"></i> ۱۲۰,۰۰۰</span>
+                    </div>
+                </div>
+                <div class="course-card intermediate english">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان انگلیسی (سطح متوسط)</h3>
+                    <p>بهبود مهارت‌های مکالمه و گرامر زبان انگلیسی...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۵</span>
+                        <span><i class="fas fa-users"></i> ۱,۱۰۰</span>
+                        <span><i class="fas fa-dollar-sign"></i> ۱۰۰,۰۰۰</span>
+                    </div>
+                </div>
+                <div class="course-card intermediate french">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان فرانسه (سطح متوسط)</h3>
+                    <p>تقویت مهارت‌های زبان فرانسه با تمرین‌های عملی...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۶</span>
+                        <span><i class="fas fa-users"></i> ۹۵۰</span>
+                        <span><i class="fas fa-dollar-sign"></i> ۱۱۰,۰۰۰</span>
+                    </div>
+                </div>
+                <!-- Advanced Courses -->
+                <div class="course-card advanced spanish">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان اسپانیایی (سطح پیشرفته)</h3>
+                    <p>تسلط بر زبان اسپانیایی با تمرین‌های پیشرفته...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۸</span>
+                        <span><i class="fas fa-users"></i> ۱,۰۰۰</span>
+                        <span><i class="fas fa-dollar-sign"></i> ۱۵۰,۰۰۰</span>
+                    </div>
+                </div>
+                <div class="course-card advanced italian">
+                    <i class="fas fa-language"></i>
+                    <h3>آموزش زبان ایتالیایی (سطح پیشرفته)</h3>
+                    <p>تسلط بر زبان ایتالیایی با تمرکز بر مکالمه پیشرفته...</p>
+                    <div class="stats">
+                        <span><i class="fas fa-star"></i> ۴.۷</span>
+                        <span><i class="fas fa-users"></i> ۸۰۰</span>
+                        <span><i class="fas fa-dollar-sign"></i> ۱۴۰,۰۰۰</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <p class="sidebar-item" onclick="filterByCategory('english')"><i class="fas fa-filter"></i> دسته‌بندی دوره‌ها</p>
+                <p class="sidebar-item" onclick="filterByLevel('beginner')"><i class="fas fa-list-ul"></i> سطح دوره‌ها</p>
+                <p class="sidebar-item" onclick="resetCourses()"><i class="fas fa-gear"></i> تنظیمات</p>
+                <p class="sidebar-item" onclick="hideCourses()"><i class="fas fa-headset"></i> پشتیبانی</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const mobileNav = document.querySelector('.nav-links.mobile');
+            const hamburger = document.querySelector('.hamburger');
+            mobileNav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function toggleSearch() {
+            const searchForm = document.querySelector('.search-form');
+            searchForm.classList.toggle('active');
+            if (searchForm.classList.contains('active')) {
+                searchForm.querySelector('input').focus();
+                resetSearch();
+            } else {
+                searchForm.querySelector('input').blur();
+                resetSearch();
+            }
+        }
+
+        function resetSearch() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-result').textContent = '';
+            document.getElementById('search-result').classList.remove('show');
+            const courses = document.querySelectorAll('.course-card');
+            courses.forEach(course => {
+                course.style.display = 'block';
+            });
+        }
+
+        function performSearch() {
+            const searchInput = document.getElementById('search-input').value.trim().toLowerCase();
+            const searchResult = document.getElementById('search-result');
+            const courses = document.querySelectorAll('.course-card');
+            let matchCount = 0;
+
+            courses.forEach(course => {
+                course.style.display = 'none';
+            });
+
+            if (searchInput === '') {
+                searchResult.textContent = 'لطفاً عبارت جستجو را وارد کنید';
+                searchResult.classList.add('show');
+                return;
+            }
+
+            courses.forEach(course => {
+                const title = course.querySelector('h3').textContent.toLowerCase();
+                const description = course.querySelector('p').textContent.toLowerCase();
+                if (title.includes(searchInput) || description.includes(searchInput)) {
+                    course.style.display = 'block';
+                    matchCount++;
+                }
+            });
+
+            if (matchCount > 0) {
+                searchResult.textContent = `${matchCount} دوره یافت شد`;
+                searchResult.classList.add('show');
+            } else {
+                searchResult.textContent = 'نتیجه‌ای یافت نشد';
+                searchResult.classList.add('show');
+            }
+        }
+
+        function filterCourses(level) {
+            const courses = document.querySelectorAll('.course-card');
+            courses.forEach(course => {
+                course.style.display = 'none';
+                if (course.classList.contains(level)) {
+                    course.style.display = 'block';
+                }
+            });
+        }
+
+        function filterByCategory(language) {
+            const courses = document.querySelectorAll('.course-card');
+            courses.forEach(course => {
+                course.style.display = 'none';
+                if (course.classList.contains(language)) {
+                    course.style.display = 'block';
+                }
+            });
+        }
+
+        function filterByLevel(level) {
+            filterCourses(level);
+        }
+
+        function resetCourses() {
+            const courses = document.querySelectorAll('.course-card');
+            courses.forEach(course => {
+                course.style.display = 'block';
+            });
+        }
+
+        function hideCourses() {
+            const courses = document.querySelectorAll('.course-card');
+            courses.forEach(course => {
+                course.style.display = 'none';
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Adjust search form position
+        function adjustSearchFormPosition() {
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            document.querySelector('.search-form').style.top = `${navbarHeight}px`;
+        }
+
+        window.addEventListener('load', adjustSearchFormPosition);
+        window.addEventListener('resize', adjustSearchFormPosition);
+
+        // Close forms and menu on outside click
+        document.addEventListener('click', (e) => {
+            const searchForm = document.querySelector('.search-form');
+            const mobileNav = document.querySelector('.nav-links.mobile');
+            const hamburger = document.querySelector('.hamburger');
+            const searchBtn = document.querySelector('.search-btn');
+
+            if (
+                !searchForm.contains(e.target) &&
+                !searchBtn.contains(e.target) &&
+                searchForm.classList.contains('active')
+            ) {
+                toggleSearch();
+            }
+
+            if (
+                !mobileNav.contains(e.target) &&
+                !hamburger.contains(e.target) &&
+                mobileNav.classList.contains('active')
+            ) {
+                toggleMenu();
+            }
+        });
+
+        // Prevent closing when clicking inside forms or menu
+        document.querySelector('.search-form').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        document.querySelector('.nav-links.mobile').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

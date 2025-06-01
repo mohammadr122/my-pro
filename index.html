@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="آموزشگاه زبان آفاق - یادگیری زبان‌های خارجی با تجربه‌ای متفاوت">
+    <title>آموزشگاه زبان آفاق</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/vazir-font@30.0.0/dist/font-face.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #F8FAFC;
+            --sec-color: #6B7280;
+            --accent-color: #3B82F6;
+            --text-dark: #1F2937;
+            --text-light: #9CA3AF;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --neon-glow: 0 0 8px rgba(59, 130, 246, 0.4);
+            --blur-value: 12px;
+            --error-color: #EF4444;
+            --success-color: #10B981;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--main-color);
+            direction: rtl;
+            font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 400;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            padding: 12px 40px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 24px;
+            color: var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+
+        .logo span {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            display: none;
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            font-size: 22px;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow);
+            list-style: none;
+            padding: 80px 20px;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dropdown-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-menu li {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu.active li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+        .dropdown-menu.active li:nth-child(2) { transition-delay: 0.15s; }
+        .dropdown-menu.active li:nth-child(3) { transition-delay: 0.2s; }
+        .dropdown-menu.active li:nth-child(4) { transition-delay: 0.25s; }
+        .dropdown-menu.active li:nth-child(5) { transition-delay: 0.3s; }
+
+        .dropdown-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        /* Search and Auth */
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-icon {
+            font-size: 20px;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .auth-buttons a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--accent-color);
+        }
+
+        .auth-buttons a:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+
+        /* Forms */
+        .search-form, .signup-form, .login-form {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 480px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 999;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .search-form.active, .signup-form.active, .login-form.active {
+            height: auto;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .search-form.active {
+            padding: 10px;
+        }
+
+        .signup-form.active {
+            padding: 15px;
+        }
+
+        .login-form.active {
+            padding: 15px;
+        }
+
+        .search-form .input-container {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: transparent;
+            font-family: 'Vazir', sans-serif;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-form input:focus {
+            border-color: var(--accent-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .search-form .search-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            background: var(--accent-color);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .search-form .search-btn:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+
+        .search-form .close-search {
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .search-form .close-search:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .signup-form .form-content, .login-form .form-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .signup-form .form-group, .login-form .form-group {
+            position: relative;
+        }
+
+        .signup-form input, .login-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 14px;
+            color: var(--text-dark);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .signup-form input:focus, .login-form input:focus {
+            border-color: var(--accent-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .signup-form input.valid, .login-form input.valid {
+            border-color: var(--success-color);
+        }
+
+        .signup-form input.invalid, .login-form input.invalid {
+            border-color: var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 11px;
+            margin-top: 3px;
+            text-align: right;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .form-buttons button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Vazir', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-buttons .submit-btn {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        .form-buttons .submit-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+
+        .form-buttons .clear-btn {
+            background: transparent;
+            color: var(--text-dark);
+            border: 1px solid var(--glass-border);
+        }
+
+        .form-buttons .submit-btn:hover:not(:disabled), .form-buttons .clear-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-buttons .submit-btn:hover:not(:disabled) {
+            background: #2563EB;
+        }
+
+        .form-buttons .clear-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Search Results */
+        .search-results {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 480px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 12px;
+            max-height: 50vh;
+            overflow-y: auto;
+            display: none;
+            z-index: 998;
+            text-align: right;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-results .results-header {
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .search-results li {
+            padding: 8px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 13px;
+            color: var(--text-dark);
+            transition: background 0.3s ease;
+        }
+
+        .search-results li:last-child {
+            border-bottom: none;
+        }
+
+        .search-results li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            display: block;
+        }
+
+        .search-results li:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .search-results .no-results {
+            color: var(--text-light);
+            text-align: center;
+            padding: 12px;
+        }
+
+        .search-results mark {
+            background: rgba(59, 130, 246, 0.3);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--main-color), #E0F2FE);
+            text-align: center;
+            padding: 30px 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            color: var(--text-dark);
+            margin-bottom: 14px;
+        }
+
+        .hero-content p {
+            font-size: clamp(16px, 3vw, 20px);
+            color: var(--text-light);
+            margin-bottom: 28px;
+        }
+
+        .hero-content a {
+            padding: 10px 28px;
+            background: var(--accent-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .hero-content a:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Sections */
+        .welcome, .why-choose-us, .courses, .teachers, .contact {
+            padding: clamp(40px, 8vw, 80px) 15px;
+            text-align: center;
+            background: var(--main-color);
+        }
+
+        .welcome h2, .why-choose-us h2, .courses h2, .teachers h2, .contact h2 {
+            font-size: clamp(24px, 4vw, 36px);
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .welcome h2::after, .why-choose-us h2::after, .courses h2::after, .teachers h2::after, .contact h2::after {
+            content: '';
+            width: 48px;
+            height: 3px;
+            background: var(--accent-color);
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .welcome p {
+            font-size: clamp(14px, 2.5vw, 18px);
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Why Choose Us */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-choose-us-card {
+            padding: 20px;
+            border-radius: 16px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-value));
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .why-choose-us-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-choose-us-card i {
+            font-size: 36px;
+            color: var(--accent-color);
+            margin-bottom: 14px;
+        }
+
+        .why-choose-us-card h3 {
+            font-size: clamp(18px, 3vw, 22px);
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .why-choose-us-card p {
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--text-light);
+        }
+
+        /* Courses */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card i {
+            font-size: 36px;
+            color: var(--accent-color);
+            margin-bottom: 14px;
+        }
+
+        .course-card h3 {
+            font-size: clamp(18px, 3vw, 22px);
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .course-card p {
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--text-light);
+        }
+
+        /* Teachers Slider */
+        .slider-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .slides {
+            display: flex;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 20px;
+            padding: 20px 0;
+            overflow-x: hidden;
+        }
+        .slide {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .slide:hover {
+            transform: translateY(-10px);
+        }
+        .slide h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        .slide p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .slide img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid #ecf0f1;
+        }
+        .scroll-arrows {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .arrow {
+            cursor: pointer;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .arrow:hover {
+            background: #2980b9;
+        }
+
+        /* Contact */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #E3F2FD, #E3F2FD);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form .form-group {
+            margin: 10px 0;
+            text-align: right;
+        }
+
+        .contact-form label {
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            font-family: 'Vazir', sans-serif;
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--text-dark);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .contact-form button {
+            padding: 10px 28px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Footer */
+        footer {
+            padding: clamp(20px, 5vw, 40px) 15px;
+            background: var(--text-dark);
+            color: #fff;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .footer-section h4 {
+            font-size: clamp(16px, 2.5vw, 18px);
+            margin-bottom: 14px;
+        }
+
+        .footer-section a, .footer-section p {
+            font-size: clamp(12px, 2vw, 14px);
+            color: var(--text-light);
+            text-decoration: none;
+            margin: 6px 0;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        .footer-section .social-icons a {
+            font-size: clamp(16px, 2.5vw, 18px);
+            margin: 0 6px;
+            color: var(--text-light);
+        }
+
+        .footer-section .social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-4px);
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+
+            .logo span {
+                font-size: 20px;
+            }
+
+            .hero-content {
+                max-width: 600px;
+            }
+
+            .why-choose-us-grid, .course-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 8px 15px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .dropdown {
+                display: block;
+            }
+
+            .search-container {
+                gap: 8px;
+            }
+
+            .auth-buttons a {
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+
+            .search-form, .signup-form, .login-form {
+                width: 95%;
+                max-width: 400px;
+            }
+
+            .search-results {
+                width: 95%;
+                max-width: 400px;
+            }
+
+            .hero {
+                padding: 20px 10px;
+                min-height: 80vh;
+            }
+
+            .welcome, .why-choose-us, .courses, .teachers, .contact {
+                padding: clamp(30px, 6vw, 60px) 10px;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .navbar {
+                padding: 6px 10px;
+            }
+
+            .logo i {
+                font-size: 20px;
+            }
+
+            .logo span {
+                font-size: 18px;
+            }
+
+            .dropdown-toggle {
+                font-size: 20px;
+                padding: 6px;
+            }
+
+            .dropdown-menu a {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .search-icon {
+                font-size: 18px;
+                padding: 6px;
+            }
+
+            .auth-buttons a {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .search-form .input-container {
+                padding: 8px;
+            }
+
+            .search-form input {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .search-form .search-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .search-form .close-search {
+                font-size: 16px;
+                padding: 5px;
+            }
+
+            .signup-form .form-content, .login-form .form-content {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .signup-form input, .login-form input {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .form-buttons button {
+                font-size: 12px;
+                padding: 6px 16px;
+            }
+
+            .error-message {
+                font-size: 10px;
+            }
+
+            .search-results {
+                padding: 8px;
+            }
+
+            .search-results .results-header {
+                font-size: 12px;
+            }
+
+            .search-results li {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            .hero {
+                padding: 15px 8px;
+                min-height: 70vh;
+            }
+
+            .welcome, .why-choose-us, .courses, .teachers, .contact {
+                padding: clamp(20px, 5vw, 40px) 8px;
+            }
+
+            .why-choose-us-grid, .course-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .contact-form {
+                padding: 16px;
+            }
+
+            .contact-form input, .contact-form textarea {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .contact-form button {
+                font-size: 13px;
+                padding: 8px 20px;
+            }
+
+            .footer-section {
+                min-width: 150px;
+            }
+        }
+
+        @media screen and (max-width: 320px) {
+            .logo span {
+                font-size: 16px;
+            }
+
+            .dropdown-menu {
+                padding: 60px 15px;
+            }
+
+            .dropdown-menu a {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .search-form, .signup-form, .login-form, .search-results {
+                width: 98%;
+            }
+
+            .hero-content h1 {
+                font-size: 24px;
+            }
+
+            .hero-content p {
+                font-size: 14px;
+            }
+
+            .hero-content a {
+                font-size: 12px;
+                padding: 8px 20px;
+            }
+
+            .welcome h2, .why-choose-us h2, .courses h2, .teachers h2, .contact h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="ناوبری اصلی">
+        <div class="dropdown" aria-label="منوی دراپ‌داون">
+            <i class="fas fa-bars dropdown-toggle" aria-label="باز کردن منوی دراپ‌داون"></i>
+            <ul class="dropdown-menu">
+                <li><a href="#" aria-label="صفحه اصلی">خانه</a></li>
+                <li><a href="#why-choose-us" aria-label="چرا ما">درباره‌ی ما</a></li>
+                <li><a href="/courses.html" data-external aria-label="دوره‌های آموزشی">دوره‌ها</a></li>
+                <li><a href="#teachers" aria-label="مدرسین">مدرسین</a></li>
+                <li><a href="#contact" aria-label="ارتباط با ما">ارتباط با ما</a></li>
+            </ul>
+        </div>
+        <div class="logo" aria-label="لوگوی آفاق">
+            <i class="fas fa-graduation-cap"></i>
+            <span>آفاق</span>
+        </div>
+        <ul class="nav-links" aria-label="لینک‌های ناوبری">
+            <li><a href="#" aria-label="صفحه اصلی">خانه</a></li>
+            <li><a href="#why-choose-us" aria-label="چرا ما">درباره‌ی ما</a></li>
+            <li><a href="/courses.html" data-external aria-label="دوره‌های آموزشی">دوره‌ها</a></li>
+            <li><a href="#teachers" aria-label="مدرسین">مدرسین</a></li>
+            <li><a href="#contact" aria-label="ارتباط با ما">ارتباط با ما</a></li>
+        </ul>
+        <div class="search-container" aria-label="جستجو و ورود">
+            <i class="fas fa-search search-icon" aria-label="باز کردن جستجو"></i>
+            <div class="auth-buttons" aria-label="دکمه‌های ورود و ثبت‌نام">
+                <a href="#" class="login" aria-label="باز کردن فرم ورود">ورود</a>
+                <a href="#" class="signup" aria-label="باز کردن فرم ثبت‌نام">ثبت‌نام</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-form" aria-label="فرم جستجو">
+        <form class="input-container">
+            <input type="text" placeholder="جستجو..." aria-label="جستجو در سایت">
+            <button type="submit" class="search-btn" aria-label="ارسال جستجو">جستجو</button>
+            <i class="fas fa-times close-search" aria-label="بستن فرم جستجو"></i>
+        </form>
+    </div>
+
+    <div class="search-results" aria-label="نتایج جستجو">
+        <div class="results-header" id="results-count"></div>
+        <ul id="search-results-list"></ul>
+    </div>
+
+    <div class="signup-form" aria-label="فرم ثبت‌نام">
+        <form class="form-content" id="signup-form">
+            <div class="form-group">
+                <input type="text" id="signup-name" placeholder="نام و نام خانوادگی" aria-label="نام و نام خانوادگی" required>
+                <span class="error-message" id="signup-name-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="email" id="signup-email" placeholder="ایمیل" aria-label="ایمیل" required>
+                <span class="error-message" id="signup-email-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="signup-password" placeholder="رمز عبور" aria-label="رمز عبور" required>
+                <span class="error-message" id="signup-password-error"></span>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="submit-btn" aria-label="ارسال فرم ثبت‌نام" disabled>ارسال</button>
+                <button type="reset" class="clear-btn" aria-label="پاک کردن فرم ثبت‌نام">حذف</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="login-form" aria-label="فرم ورود">
+        <form class="form-content" id="login-form">
+            <div class="form-group">
+                <input type="email" id="login-email" placeholder="ایمیل" aria-label="ایمیل" required>
+                <span class="error-message" id="login-email-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" placeholder="رمز عبور" aria-label="رمز عبور" required>
+                <span class="error-message" id="login-password-error"></span>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="submit-btn" aria-label="ارسال فرم ورود" disabled>ارسال</button>
+                <button type="reset" class="clear-btn" aria-label="پاک کردن فرم ورود">حذف</button>
+            </div>
+        </form>
+    </div>
+
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>زبان جدید، دنیای جدید</h1>
+            <p>با آموزشگاه زبان آفاق، مهارت‌های زبانی خود را به سطح بعدی ببرید!</p>
+            <a href="#" aria-label="اکنون ثبت‌نام کنید">اکنون ثبت‌نام کنید</a>
+        </div>
+    </section>
+
+    <section class="welcome" id="welcome">
+        <h2>به آفاق خوش آمدید</h2>
+        <p>ما در آموزشگاه زبان آفاق متعهد به ارائه آموزش‌های باکیفیت در محیطی دوستانه هستیم.</p>
+    </section>
+
+    <section class="why-choose-us" id="why-choose-us">
+        <h2>چرا ما</h2>
+        <div class="why-choose-us-grid">
+            <div class="why-choose-us-card">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h3>اساتید مجرب</h3>
+                <p>تدریس توسط مدرسان حرفه‌ای با سال‌ها تجربه</p>
+            </div>
+            <div class="why-choose-us-card">
+                <i class="fas fa-laptop"></i>
+                <h3>آموزش آنلاین</h3>
+                <p>کلاس‌های مجازی انعطاف‌پذیر برای هر برنامه زمانی</p>
+            </div>
+            <div class="why-choose-us-card">
+                <i class="fas fa-certificate"></i>
+                <h3>مدرک معتبر</h3>
+                <p>گواهینامه‌های شناخته‌شده برای پیشرفت شغلی</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses" id="courses">
+        <h2>دوره‌های آموزشی ما</h2>
+        <div class="course-grid">
+            <div class="course-card">
+                <i class="fas fa-globe"></i>
+                <h3>زبان انگلیسی</h3>
+                <p>از مکالمه روزمره تا آمادگی برای IELTS و TOEFL</p>
+            </div>
+            <div class="course-card">
+                <i class="fas fa-language"></i>
+                <h3>زبان ایتالیایی</h3>
+                <p>یادگیری زبان ایتالیایی با تمرکز بر فرهنگ و هنر</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="teachers" id="teachers">
+        <h2>مدرسین ما</h2>
+        <div class="slider-container">
+            <div class="slides">
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="خانم حسینی">
+                    <h2>خانم حسینی</h2>
+                    <p>مدرس حرفه‌ای با بیش از 4 سال سابقه کار حرفه‌ای و مدرس با استعداد و خوش‌سابقه در آموزش و مشاور شما در یادگیری زبان</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="دکتر احمدی">
+                    <h2>دکتر احمدی</h2>
+                    <p>مدرس با تجربه این مجموعه با بیش از 7 سال سابقه کار حرفه‌ای، یکی از بهترین مدرسان و همیار شما در یادگیری زبان انگلیسی</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="خانم رضایی">
+                    <h2>خانم رضایی</h2>
+                    <p>مدرس تخصصی زبان فرانسه با 5 سال سابقه تدریس در موسسات معتبر و دارای مدرک DELF سطح C2</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="آقای محمدی">
+                    <h2>آقای محمدی</h2>
+                    <p>مدرس آیلتس با 6 سال تجربه و دارای نمره 8.5 آیلتس آکادمیک، متخصص در مهارت‌های نوشتاری و گفتاری</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="خانم کریمی">
+                    <h2>خانم کریمی</h2>
+                    <p>مدرس زبان آلمانی با 4 سال سابقه تدریس و دارای مدرک TestDaF با نمره کامل، متخصص در آمادگی آزمون‌های گوته</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="آقای نوروزی">
+                    <h2>آقای نوروزی</h2>
+                    <p>مدرس تخصصی زبان انگلیسی بازرگانی با 8 سال سابقه کاری در شرکت‌های بین‌المللی</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="خانم فلاحی">
+                    <h2>خانم فلاحی</h2>
+                    <p>مدرس زبان اسپانیایی با 3 سال سابقه تدریس و دارای مدرک DELE سطح C1، متخصص در مکالمه روزمره</p>
+                </div>
+                <div class="slide">
+                    <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="دکتر شریفی">
+                    <h2>دکتر شریفی</h2>
+                    <p>استاد دانشگاه و مدرس تافل با 10 سال سابقه تدریس، نویسنده 3 کتاب آموزشی زبان انگلیسی</p>
+                </div>
+            </div>
+            <div class="scroll-arrows">
+                <button class="arrow" onclick="scrollSlides(-1)">❮ بعدی</button>
+                <button class="arrow" onclick="scrollSlides(1)">قبلی ❯</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>ارتباط با ما</h2>
+        <form class="contact-form" id="contact-form">
+            <div class="form-group">
+                <label for="name">نام و نام خانوادگی</label>
+                <input type="text" id="name" placeholder="نام و نام خانوادگی" aria-label="نام و نام خانوادگی" required>
+            </div>
+            <div class="form-group">
+                <label for="email">ایمیل</label>
+                <input type="email" id="email" placeholder="ایمیل" aria-label="ایمیل" required>
+            </div>
+            <div class="form-group">
+                <label for="message">پیام شما</label>
+                <textarea id="message" placeholder="پیام شما" rows="5" aria-label="پیام شما" required></textarea>
+            </div>
+            <button type="submit" aria-label="ارسال پیام">ارسال پیام</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-section">
+            <h4>لینک‌های مفید</h4>
+            <a href="#">خانه</a>
+            <a href="#why-choose-us">چرا ما</a>
+            <a href="/courses.html" data-external>دوره‌ها</a>
+            <a href="#teachers">مدرسین</a>
+            <a href="#contact">ارتباط با ما</a>
+        </div>
+        <div class="footer-section">
+            <h4>تماس با ما</h4>
+            <p>تلفن: 021-12345678</p>
+            <p>ایمیل: info@afagh.com</p>
+            <p>آدرس: تهران، خیابان نمونه</p>
+        </div>
+        <div class="footer-section">
+            <h4>ما را دنبال کنید</h4>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll
+        function smoothScrollTo(targetY, duration) {
+            const startY = window.scrollY;
+            const distance = targetY - startY;
+            const startTime = performance.now();
+
+            function easeInOutQuad(t) {
+                return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+            }
+
+            function scroll() {
+                const currentTime = performance.now();
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutQuad(progress);
+
+                window.scrollTo(0, startY + distance * ease);
+
+                if (progress < 1) {
+                    requestAnimationFrame(scroll);
+                }
+            }
+
+            requestAnimationFrame(scroll);
+        }
+
+        // Navigation Links
+        document.querySelectorAll('.nav-links a, .dropdown-menu a, .footer-section a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.hasAttribute('data-external')) {
+                    // Allow default behavior for external links
+                    return;
+                }
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - 80;
+                    smoothScrollTo(targetPosition, 800);
+                    document.querySelector('.dropdown-menu').classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                } else {
+                    smoothScrollTo(0, 800);
+                    document.querySelector('.dropdown-menu').classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Dropdown Menu
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+            document.body.style.overflow = dropdownMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Form Management
+        const searchIcon = document.querySelector('.search-icon');
+        const closeSearch = document.querySelector('.close-search');
+        const searchForm = document.querySelector('.search-form');
+        const signupBtn = document.querySelector('.signup');
+        const loginBtn = document.querySelector('.login');
+        const signupForm = document.querySelector('.signup-form');
+        const loginForm = document.querySelector('.login-form');
+        const signupFormContent = document.querySelector('#signup-form');
+        const loginFormContent = document.querySelector('#login-form');
+        const searchResults = document.querySelector('.search-results');
+        const searchResultsList = document.querySelector('#search-results-list');
+        const resultsCount = document.querySelector('#results-count');
+        const contactForm = document.querySelector('#contact-form');
+
+        function closeAllForms() {
+            searchForm.classList.remove('active');
+            signupForm.classList.remove('active');
+            loginForm.classList.remove('active');
+            searchResults.classList.remove('active');
+            searchResultsList.innerHTML = '';
+            resultsCount.innerHTML = '';
+            searchForm.querySelector('input').value = '';
+            dropdownMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            signupFormContent.reset();
+            loginFormContent.reset();
+            clearValidationMessages(signupFormContent);
+            clearValidationMessages(loginFormContent);
+        }
+
+        function clearValidationMessages(form) {
+            form.querySelectorAll('.error-message').forEach(error => {
+                error.classList.remove('active');
+                error.textContent = '';
+            });
+            form.querySelectorAll('input').forEach(input => {
+                input.classList.remove('valid', 'invalid');
+            });
+            form.querySelector('.submit-btn').disabled = true;
+        }
+
+        // Search Form Toggle
+        searchIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAllForms();
+            searchForm.classList.add('active');
+            searchForm.querySelector('input').focus();
+        });
+
+        closeSearch.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAllForms();
+        });
+
+        // Signup Form Toggle
+        signupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAllForms();
+            signupForm.classList.add('active');
+            signupForm.querySelector('input').focus();
+        });
+
+        // Login Form Toggle
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAllForms();
+            loginForm.classList.add('active');
+            loginForm.querySelector('input').focus();
+        });
+
+        // Close Forms on Outside Click
+        document.addEventListener('click', (e) => {
+            if (
+                !searchForm.contains(e.target) &&
+                !signupForm.contains(e.target) &&
+                !loginForm.contains(e.target) &&
+                !searchIcon.contains(e.target) &&
+                !signupBtn.contains(e.target) &&
+                !loginBtn.contains(e.target) &&
+                !searchResults.contains(e.target) &&
+                !dropdownMenu.contains(e.target) &&
+                !dropdownToggle.contains(e.target)
+            ) {
+                closeAllForms();
+            }
+        });
+
+        // Prevent Form Closing When Clicking Inside
+        [searchForm, signupForm, loginForm, searchResults].forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
+
+        // Adjust Form Positions
+        function adjustFormPositions() {
+            const navbarHeight = navbar.offsetHeight;
+            searchForm.style.top = `${navbarHeight}px`;
+            signupForm.style.top = `${navbarHeight}px`;
+            loginForm.style.top = `${navbarHeight}px`;
+            searchResults.style.top = `${navbarHeight + 100}px`;
+        }
+
+        window.addEventListener('load', adjustFormPositions);
+        window.addEventListener('resize', adjustFormPositions);
+
+        // Validation Logic
+        const validators = {
+            name: (value) => {
+                const regex = /^[آ-یa-zA-Z\s]{2,}$/;
+                if (!value) return 'نام و نام خانوادگی الزامی است';
+                if (!regex.test(value)) return 'نام و نام خانوادگی باید حداقل 2 کاراکتر و فقط شامل حروف باشد';
+                return '';
+            },
+            email: (value) => {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!value) return 'ایمیل الزامی است';
+                if (!regex.test(value)) return 'ایمیل واردشده معتبر نیست';
+                return '';
+            },
+            password: (value, isSignup = false) => {
+                if (!value) return 'رمز عبور الزامی است';
+                if (value.length < 8) return 'رمز عبور باید حداقل 8 کاراکتر باشد';
+                if (isSignup) {
+                    const hasUpperCase = /[A-Z]/.test(value);
+                    const hasLowerCase = /[a-z]/.test(value);
+                    const hasNumber = /\d/.test(value);
+                    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+                    if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+                        return 'رمز عبور باید شامل حرف بزرگ، حرف کوچک، عدد و کاراکتر ویژه باشد';
+                    }
+                }
+                return '';
+            }
+        };
+
+        function validateField(input, validator, errorElement) {
+            const value = input.value.trim();
+            const error = validator(value, input.id.includes('signup'));
+            errorElement.textContent = error;
+            errorElement.classList.toggle('active', !!error);
+            input.classList.toggle('valid', !error && value);
+            input.classList.toggle('invalid', !!error);
+            return !error;
+        }
+
+        function validateForm(form) {
+            const inputs = form.querySelectorAll('input');
+            let isValid = true;
+            inputs.forEach(input => {
+                const validator = validators[input.id.replace(/^(signup|login)-/, '')];
+                const errorElement = document.getElementById(`${input.id}-error`);
+                if (!validateField(input, validator, errorElement)) {
+                    isValid = false;
+                }
+            });
+            form.querySelector('.submit-btn').disabled = !isValid;
+        }
+
+        // Signup Form Validation
+        signupFormContent.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                const validator = validators[input.id.replace('signup-', '')];
+                const errorElement = document.getElementById(`${input.id}-error`);
+                validateField(input, validator, errorElement);
+                validateForm(signupFormContent);
+            });
+        });
+
+        signupFormContent.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!signupFormContent.querySelector('.submit-btn').disabled) {
+                alert('ثبت‌نام با موفقیت انجام شد!');
+                closeAllForms();
+            }
+        });
+
+        signupFormContent.querySelector('.clear-btn').addEventListener('click', () => {
+            clearValidationMessages(signupFormContent);
+        });
+
+        // Login Form Validation
+        loginFormContent.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                const validator = validators[input.id.replace('login-', '')];
+                const errorElement = document.getElementById(`${input.id}-error`);
+                validateField(input, validator, errorElement);
+                validateForm(loginFormContent);
+            });
+        });
+
+        loginFormContent.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!loginFormContent.querySelector('.submit-btn').disabled) {
+                alert('ورود با موفقیت انجام شد!');
+                closeAllForms();
+            }
+        });
+
+        loginFormContent.querySelector('.clear-btn').addEventListener('click', () => {
+            clearValidationMessages(loginFormContent);
+        });
+
+        // Search Functionality
+        const searchableContent = [
+            { title: 'زبان انگلیسی', description: 'از مکالمه روزمره تا آمادگی برای IELTS و TOEFL', section: 'دوره‌ها', sectionId: 'courses' },
+            { title: 'زبان ایتالیایی', description: 'یادگیری زبان ایتالیایی با تمرکز بر فرهنگ و هنر', section: 'دوره‌ها', sectionId: 'courses' },
+            { title: 'دکتر احمدی', description: 'متخصص آموزش زبان انگلیسی با 15 سال تجربه', section: 'مدرسین', sectionId: 'teachers' },
+            { title: 'خانم حسینی', description: 'مدرس زبان ایتالیایی و فرهنگ ایتالیا', section: 'مدرسین', sectionId: 'teachers' },
+            { title: 'اساتید مجرب', description: 'تدریس توسط مدرسان حرفه‌ای با سال‌ها تجربه', section: 'چرا ما', sectionId: 'why-choose-us' },
+            { title: 'آموزش آنلاین', description: 'کلاس‌های مجازی انعطاف‌پذیر برای هر برنامه زمانی', section: 'چرا ما', sectionId: 'why-choose-us' },
+            { title: 'مدرک معتبر', description: 'گواهینامه‌های شناخته‌شده برای پیشرفت شغلی', section: 'چرا ما', sectionId: 'why-choose-us' },
+            { title: 'به آفاق خوش آمدید', description: 'ما در آموزشگاه زبان آفاق متعهد به ارائه آموزش‌های باکیفیت در محیطی دوستانه هستیم.', section: 'خوش‌آمدگویی', sectionId: 'welcome' },
+            { title: 'ارتباط با ما', description: 'تماس با آموزشگاه زبان آفاق از طریق فرم تماس یا اطلاعات تماس', section: 'تماس', sectionId: 'contact' }
+        ];
+
+        function highlightText(text, query) {
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<mark>$1</mark>');
+        }
+
+        searchForm.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchForm.querySelector('input').value.trim().toLowerCase();
+            if (!query) {
+                searchResultsList.innerHTML = '<li class="no-results">لطفاً عبارت جستجو را وارد کنید</li>';
+                resultsCount.innerHTML = '';
+                searchResults.classList.add('active');
+                return;
+            }
+            if (query.length < 2) {
+                searchResultsList.innerHTML = '<li class="no-results">عبارت جستجو باید حداقل 2 کاراکتر باشد</li>';
+                resultsCount.innerHTML = '';
+                searchResults.classList.add('active');
+                return;
+            }
+
+            const results = searchableContent.filter(item =>
+                item.title.toLowerCase().includes(query) ||
+                item.description.toLowerCase().includes(query) ||
+                item.section.toLowerCase().includes(query)
+            );
+
+            searchResultsList.innerHTML = '';
+            resultsCount.innerHTML = results.length > 0 ? `تعداد نتایج یافت‌شده: ${results.length}` : '';
+            if (results.length > 0) {
+                results.forEach(result => {
+                    const li = document.createElement('li');
+                    const highlightedTitle = highlightText(result.title, query);
+                    const highlightedDescription = highlightText(result.description, query);
+                    li.innerHTML = `<a href="#${result.sectionId}" data-section="${result.sectionId}">
+                        <strong>${highlightedTitle}</strong> (${result.section})<br>${highlightedDescription}
+                    </a>`;
+                    searchResultsList.appendChild(li);
+                });
+                searchResultsList.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const sectionId = link.getAttribute('data-section');
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            const targetPosition = section.getBoundingClientRect().top + window.scrollY - 80;
+                            smoothScrollTo(targetPosition, 800);
+                            closeAllForms();
+                        }
+                    });
+                });
+            } else {
+                searchResultsList.innerHTML = '<li class="no-results">نتیجه‌ای یافت نشد</li>';
+            }
+            searchResults.classList.add('active');
+        });
+
+        searchForm.querySelector('input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchForm.querySelector('form').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Contact Form Submission
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = contactForm.querySelector('#name').value.trim();
+            const email = contactForm.querySelector('#email').value.trim();
+            const message = contactForm.querySelector('#message').value.trim();
+
+            if (name && email && message) {
+                alert('پیام شما با موفقیت ارسال شد! ما به زودی با شما تماس خواهیم گرفت.');
+                contactForm.reset();
+            } else {
+                alert('لطفاً تمام فیلدها را پر کنید.');
+            }
+        });
+
+        // Slider Functionality
+        function scrollSlides(direction) {
+            const slides = document.querySelector('.slides');
+            slides.scrollBy({
+                left: direction * 320,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
